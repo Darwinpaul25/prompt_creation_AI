@@ -23,7 +23,8 @@ interface Chat {
   messages: Message[];
 }
 
-const STORAGE_KEY = 'qai_architect_chats';
+const STORAGE_KEY = 'cue_ai_chats';
+const ACTIVE_CHAT_KEY = 'cue_ai_active_chat_id';
 
 export default function App() {
   const [chats, setChats] = useState<Chat[]>(() => {
@@ -35,8 +36,11 @@ export default function App() {
     return parsed;
   });
   const [activeChatId, setActiveChatId] = useState<string | null>(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    const parsed = saved ? JSON.parse(saved) : [];
+    const savedId = localStorage.getItem(ACTIVE_CHAT_KEY);
+    if (savedId) return savedId;
+    
+    const savedChats = localStorage.getItem(STORAGE_KEY);
+    const parsed = savedChats ? JSON.parse(savedChats) : [];
     return parsed.length > 0 ? parsed[0].id : 'initial';
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -51,6 +55,12 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(chats));
   }, [chats]);
+
+  useEffect(() => {
+    if (activeChatId) {
+      localStorage.setItem(ACTIVE_CHAT_KEY, activeChatId);
+    }
+  }, [activeChatId]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -283,8 +293,7 @@ export default function App() {
               <Menu className={`w-5 h-5 transition-colors ${isSidebarCollapsed ? 'text-primary' : 'text-slate-500 group-hover:text-slate-300'}`} />
             </button>
             <div className="flex items-center gap-2">
-              <h2 className="font-bold text-xl tracking-tighter text-white">QAI</h2>
-              <span className="px-1.5 py-0.5 rounded bg-primary/10 text-[10px] font-bold text-primary tracking-widest uppercase">Architect</span>
+              <h2 className="font-bold text-xl tracking-tighter text-white">CUE AI</h2>
             </div>
             <div className="w-px h-4 bg-white/10 mx-2 hidden md:block" />
             <h2 className="font-medium text-sm truncate max-w-[200px] md:max-w-md text-slate-500">
@@ -316,9 +325,9 @@ export default function App() {
                   </div>
                 </div>
                 <div className="space-y-3 max-w-lg">
-                  <h1 className="text-4xl font-bold tracking-tight text-white">The Prompt Architect</h1>
+                  <h1 className="text-4xl font-bold tracking-tight text-white">CUE AI Chat</h1>
                   <p className="text-slate-400 text-lg leading-relaxed">
-                    I am QAI. I don't just answer; I craft. Tell me your vision, and together we'll engineer the perfect prompt.
+                    I am CUE AI. I don't just answer; I craft. Tell me your vision, and together we'll engineer the perfect response.
                   </p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-xl pt-8">
@@ -326,7 +335,7 @@ export default function App() {
                     "Create a viral marketing campaign",
                     "Design a futuristic UI component",
                     "Write a deep philosophical essay",
-                    "Architect a scalable backend system"
+                    "Build a scalable backend system"
                   ].map((suggestion) => (
                     <button 
                       key={suggestion}
@@ -334,7 +343,7 @@ export default function App() {
                       className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.05] hover:border-white/10 transition-all text-left group"
                     >
                       <p className="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">{suggestion}</p>
-                      <p className="text-[11px] text-slate-500 mt-1">Click to start architecting</p>
+                      <p className="text-[11px] text-slate-500 mt-1">Click to start chatting</p>
                     </button>
                   ))}
                 </div>

@@ -31,7 +31,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           className="w-full flex items-center justify-center gap-2 px-4 py-3.5 bg-white/[0.03] hover:bg-white/[0.08] text-slate-200 hover:text-white border border-white/10 rounded-2xl transition-all duration-300 text-sm font-semibold active:scale-[0.98] whitespace-nowrap group"
         >
           <Plus className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
-          New Architect
+          New Chat
         </button>
       </div>
 
