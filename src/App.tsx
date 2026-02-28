@@ -40,6 +40,7 @@ export default function App() {
     return parsed.length > 0 ? parsed[0].id : 'initial';
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -80,6 +81,7 @@ export default function App() {
     }));
 
     setIsLoading(true);
+    setError(null);
 
     try {
       const history = messages.map(m => ({
@@ -113,8 +115,9 @@ export default function App() {
         }
         return chat;
       }));
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error sending message:', error);
+      setError(error.message || "I'm sorry, I couldn't process that. Please check your API key.");
     } finally {
       setIsLoading(false);
     }
@@ -350,11 +353,19 @@ export default function App() {
             ))}
             {isLoading && (
               <div className="flex items-start gap-4 animate-pulse">
-                <div className="w-8 h-8 rounded bg-[#10a37f] flex-shrink-0" />
-                <div className="flex-1 pt-1 space-y-2">
-                  <div className="h-4 bg-[#21262d] rounded w-3/4" />
-                  <div className="h-4 bg-[#21262d] rounded w-1/2" />
+                <div className="w-8 h-8 rounded bg-primary/20 flex-shrink-0 flex items-center justify-center">
+                  <div className="w-4 h-4 rounded-full bg-primary/40" />
                 </div>
+                <div className="flex-1 pt-1 space-y-2">
+                  <div className="h-4 bg-white/5 rounded w-3/4" />
+                  <div className="h-4 bg-white/5 rounded w-1/2" />
+                </div>
+              </div>
+            )}
+            {error && (
+              <div className="p-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                {error}
               </div>
             )}
             <div ref={messagesEndRef} />
