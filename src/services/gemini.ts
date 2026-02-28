@@ -22,7 +22,7 @@ export async function sendMessage(history: { role: "user" | "model", parts: { te
       model: "gemini-3-flash-preview",
       contents: [...history, { role: "user", parts: [{ text: message }] }],
       config: {
-        systemInstruction: `You are CUE AI. 
+        systemInstruction: `You are Cue.Ai. 
         Goal: Help users engineer perfect responses.
         Rules:
         1. Don't give the final response immediately if it's a complex request.

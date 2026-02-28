@@ -11,8 +11,148 @@
 
 @layer base {
   body {
-    @apply bg-[#0a0a0a] text-slate-100 antialiased;
+    @apply bg-[#0a0a0a] text-slate-100 antialiased transition-colors duration-300;
   }
+
+  body.light {
+    @apply bg-slate-50 text-slate-900;
+  }
+}
+
+/* Header Button Styles */
+.header-btn {
+  @apply bg-white/5 hover:bg-white/10 border-white/10 text-slate-400;
+}
+
+.header-btn-primary {
+  @apply bg-primary text-white hover:bg-primary/90 shadow-lg shadow-primary/10;
+}
+
+.chat-input-textarea {
+  @apply text-slate-100;
+}
+
+.welcome-title {
+  @apply text-white;
+}
+
+.welcome-text {
+  @apply text-slate-400;
+}
+
+.suggestion-card {
+  @apply bg-white/[0.02] border-white/[0.05] hover:bg-white/[0.05] hover:border-white/10;
+}
+
+.suggestion-card-title {
+  @apply text-slate-300 group-hover:text-white;
+}
+
+.sidebar-new-chat-btn {
+  @apply bg-white/[0.03] hover:bg-white/[0.08] text-slate-200 hover:text-white border-white/10;
+}
+
+.sidebar-active-item {
+  @apply bg-white/[0.05] text-white border-white/5;
+}
+
+/* Light mode overrides */
+body.light .sidebar-active-item {
+  @apply bg-white text-slate-900 border-slate-200 shadow-sm;
+}
+
+body.light .sidebar-new-chat-btn {
+  @apply bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border-slate-200 shadow-sm;
+}
+
+body.light .suggestion-card {
+  @apply bg-white border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-sm;
+}
+
+body.light .suggestion-card-title {
+  @apply text-slate-700 group-hover:text-slate-900;
+}
+
+body.light .welcome-title {
+  @apply text-slate-900;
+}
+
+body.light .welcome-text {
+  @apply text-slate-500;
+}
+
+body.light .chat-input-container {
+  @apply bg-white border-slate-200 shadow-xl focus-within:border-primary/30 focus-within:bg-white;
+}
+
+body.light .chat-input-textarea {
+  @apply text-slate-800 placeholder-slate-400;
+}
+
+body.light .header-btn {
+  @apply bg-slate-200/50 hover:bg-slate-200 border-slate-300 text-slate-600;
+}
+
+body.light .header-btn-primary {
+  @apply bg-primary text-white hover:bg-primary/90 shadow-lg shadow-primary/20;
+}
+
+body.light .atmosphere {
+  background: 
+    radial-gradient(circle at 50% -20%, rgba(16, 163, 127, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 0% 100%, rgba(16, 163, 127, 0.01) 0%, transparent 40%);
+}
+
+body.light header {
+  @apply bg-white/90 border-slate-200 shadow-sm backdrop-blur-xl;
+}
+
+body.light header h2 {
+  @apply text-slate-900;
+}
+
+body.light header .text-slate-500 {
+  @apply text-slate-400;
+}
+
+body.light .sidebar-theme {
+  @apply bg-slate-50 border-slate-200;
+}
+
+body.light .sidebar-theme button {
+  @apply text-slate-600 hover:bg-slate-200/50 hover:text-slate-900;
+}
+
+body.light .sidebar-theme .text-slate-500 {
+  @apply text-slate-400;
+}
+
+body.light .sidebar-theme .sidebar-label {
+  @apply text-slate-400;
+}
+
+body.light .message-ai {
+  @apply bg-white text-slate-800 border-slate-200 shadow-sm hover:border-slate-300;
+}
+
+body.light .message-ai p, body.light .message-ai li {
+  @apply text-slate-600;
+}
+
+body.light .message-ai h1, body.light .message-ai h2, body.light .message-ai h3 {
+  @apply text-slate-900;
+}
+
+body.light .message-user {
+  @apply bg-primary text-white shadow-lg shadow-primary/10;
+}
+
+body.light .scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+}
+
+body.light .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
 }
 
 /* Atmospheric background effect */

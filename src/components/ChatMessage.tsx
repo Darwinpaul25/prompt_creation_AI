@@ -46,7 +46,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
     >
       <div className={`max-w-[85%] flex gap-4 ${isAI ? 'flex-row' : 'flex-row-reverse'}`}>
         <div className={`w-9 h-9 rounded-xl flex-shrink-0 flex items-center justify-center mt-1 transition-all duration-300 group-hover:scale-110 ${
-          isAI ? 'bg-primary/10 text-primary border border-primary/20 shadow-lg shadow-primary/5' : 'bg-white/5 text-slate-400 border border-white/10'
+          isAI ? 'bg-primary/10 text-primary border border-primary/20 shadow-lg shadow-primary/5' : 'bg-slate-500/10 text-slate-500 border border-slate-500/20'
         }`}>
           {isAI ? <Sparkles className="w-4 h-4" /> : <User className="w-4 h-4" />}
         </div>
@@ -54,8 +54,8 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
         <div className={`space-y-4 flex flex-col ${isAI ? 'items-start' : 'items-end'}`}>
           <div className={`px-5 py-4 rounded-2xl text-sm leading-relaxed shadow-sm transition-all duration-300 ${
             isAI 
-              ? 'bg-white/[0.03] text-slate-200 border border-white/[0.05] hover:border-white/10' 
-              : 'bg-primary text-white shadow-lg shadow-primary/10'
+              ? 'border message-ai' 
+              : 'message-user'
           }`}>
             <div className="markdown-body">
               <ReactMarkdown
@@ -76,10 +76,10 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
                   p: ({ children }) => <p className="mb-4 last:mb-0">{children}</p>,
                   ul: ({ children }) => <ul className="list-disc pl-6 mb-4 space-y-2">{children}</ul>,
                   ol: ({ children }) => <ol className="list-decimal pl-6 mb-4 space-y-2">{children}</ol>,
-                  li: ({ children }) => <li className="text-slate-300">{children}</li>,
-                  h1: ({ children }) => <h1 className="text-2xl font-bold mb-4 text-white tracking-tight">{children}</h1>,
-                  h2: ({ children }) => <h2 className="text-xl font-bold mb-3 text-white tracking-tight">{children}</h2>,
-                  h3: ({ children }) => <h3 className="text-lg font-bold mb-2 text-white tracking-tight">{children}</h3>,
+                  li: ({ children }) => <li className="opacity-80">{children}</li>,
+                  h1: ({ children }) => <h1 className="text-2xl font-bold mb-4 tracking-tight">{children}</h1>,
+                  h2: ({ children }) => <h2 className="text-xl font-bold mb-3 tracking-tight">{children}</h2>,
+                  h3: ({ children }) => <h3 className="text-lg font-bold mb-2 tracking-tight">{children}</h3>,
                 }}
               >
                 {message.text}

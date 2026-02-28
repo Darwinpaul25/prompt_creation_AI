@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Sidebar, ChatHistoryItem } from './components/Sidebar';
 import { ChatMessage } from './components/ChatMessage';
 import { ChatInput } from './components/ChatInput';
-import { Edit3, Menu, Plus } from 'lucide-react';
+import { Edit3, Menu, Plus, Sun, Moon } from 'lucide-react';
 import { sendMessage, generateTitle } from './services/gemini';
 
 interface Message {
@@ -47,10 +47,23 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    const saved = localStorage.getItem('cue_ai_theme');
+    return (saved as 'dark' | 'light') || 'dark';
+  });
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const activeChat = chats.find(c => c.id === activeChatId) || null;
   const messages = activeChat?.messages || [];
+
+  useEffect(() => {
+    localStorage.setItem('cue_ai_theme', theme);
+    if (theme === 'light') {
+      document.body.classList.add('light');
+    } else {
+      document.body.classList.remove('light');
+    }
+  }, [theme]);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(chats));
@@ -293,14 +306,43 @@ export default function App() {
               <Menu className={`w-5 h-5 transition-colors ${isSidebarCollapsed ? 'text-primary' : 'text-slate-500 group-hover:text-slate-300'}`} />
             </button>
             <div className="flex items-center gap-2">
-              <h2 className="font-bold text-xl tracking-tighter text-white">CUE AI</h2>
+              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center overflow-hidden">
+                <img 
+                  src="/logo.png" 
+                  alt="Cue.Ai" 
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.parentElement!.innerHTML = '<span class="text-white font-bold text-lg">C</span>';
+                  }}
+                />
+              </div>
+              <h2 className="font-bold text-xl tracking-tighter text-white">Cue.Ai</h2>
             </div>
             <div className="w-px h-4 bg-white/10 mx-2 hidden md:block" />
             <h2 className="font-medium text-sm truncate max-w-[200px] md:max-w-md text-slate-500">
               {activeChat?.title || 'New Conversation'}
             </h2>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="p-2 rounded-xl border backdrop-blur-xl transition-all active:scale-95 group header-btn"
+              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              {theme === 'dark' ? (
+                <Sun className="w-4 h-4 text-amber-400 group-hover:rotate-45 transition-transform" />
+              ) : (
+                <Moon className="w-4 h-4 text-indigo-400 group-hover:-rotate-12 transition-transform" />
+              )}
+            </button>
+            <button 
+              onClick={handleNewChat}
+              className="hidden md:flex items-center gap-2 px-3 py-2 rounded-xl transition-all active:scale-95 header-btn-primary text-xs font-semibold"
+            >
+              <Plus className="w-4 h-4" />
+              New Chat
+            </button>
             <button 
               onClick={handleNewChat}
               className="md:hidden p-2 hover:bg-white/5 rounded-xl transition-all"
@@ -325,9 +367,9 @@ export default function App() {
                   </div>
                 </div>
                 <div className="space-y-3 max-w-lg">
-                  <h1 className="text-4xl font-bold tracking-tight text-white">CUE AI Chat</h1>
-                  <p className="text-slate-400 text-lg leading-relaxed">
-                    I am CUE AI. I don't just answer; I craft. Tell me your vision, and together we'll engineer the perfect response.
+                  <h1 className="text-4xl font-bold tracking-tight welcome-title">Cue.Ai Chat</h1>
+                  <p className="text-lg leading-relaxed welcome-text">
+                    I am Cue.Ai. I don't just answer; I craft. Tell me your vision, and together we'll engineer the perfect response.
                   </p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-xl pt-8">
@@ -340,9 +382,9 @@ export default function App() {
                     <button 
                       key={suggestion}
                       onClick={() => handleSend(suggestion)}
-                      className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.05] hover:border-white/10 transition-all text-left group"
+                      className="p-4 rounded-2xl border transition-all text-left group suggestion-card"
                     >
-                      <p className="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">{suggestion}</p>
+                      <p className="text-sm font-medium transition-colors suggestion-card-title">{suggestion}</p>
                       <p className="text-[11px] text-slate-500 mt-1">Click to start chatting</p>
                     </button>
                   ))}

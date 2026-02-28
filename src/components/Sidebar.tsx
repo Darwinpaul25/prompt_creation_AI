@@ -24,11 +24,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
   isCollapsed
 }) => {
   return (
-    <aside className={`${isCollapsed ? 'w-0 overflow-hidden border-none' : 'w-72 border-r'} h-full flex-shrink-0 bg-[#0a0a0a] border-white/5 hidden md:flex flex-col transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]`}>
+    <aside className={`${isCollapsed ? 'w-0 overflow-hidden border-none' : 'w-72 border-r'} h-full flex-shrink-0 bg-[#0a0a0a] border-white/5 hidden md:flex flex-col transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] sidebar-theme`}>
       <div className="p-6">
         <button 
           onClick={onNewChat}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3.5 bg-white/[0.03] hover:bg-white/[0.08] text-slate-200 hover:text-white border border-white/10 rounded-2xl transition-all duration-300 text-sm font-semibold active:scale-[0.98] whitespace-nowrap group"
+          className="w-full flex items-center justify-center gap-2 px-4 py-3.5 border rounded-2xl transition-all duration-300 text-sm font-semibold active:scale-[0.98] whitespace-nowrap group sidebar-new-chat-btn"
         >
           <Plus className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
           New Chat
@@ -36,7 +36,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       <div className="flex-1 overflow-y-auto px-4 py-2 space-y-1 scrollbar-none">
-        <div className="px-3 py-3 text-[10px] font-bold text-slate-600 uppercase tracking-[0.2em] whitespace-nowrap">
+        <div className="px-3 py-3 text-[10px] font-bold text-slate-600 uppercase tracking-[0.2em] whitespace-nowrap sidebar-label">
           Blueprint History
         </div>
         <div className="space-y-1">
@@ -46,7 +46,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 onClick={() => onSelectChat(chat.id)}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300 text-sm pr-10 ${
                   activeChatId === chat.id 
-                    ? 'bg-white/[0.05] text-white shadow-sm border border-white/5' 
+                    ? 'shadow-sm border sidebar-active-item' 
                     : 'text-slate-500 hover:bg-white/[0.02] hover:text-slate-300 border border-transparent'
                 }`}
               >
