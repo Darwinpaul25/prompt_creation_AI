@@ -1,5 +1,6 @@
 import React from 'react';
 import { Plus, MessageSquare, Trash2 } from 'lucide-react';
+import { Logo } from './Logo';
 
 export interface ChatHistoryItem {
   id: string;
@@ -25,7 +26,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   return (
     <aside className={`${isCollapsed ? 'w-0 overflow-hidden border-none' : 'w-72 border-r'} h-full flex-shrink-0 bg-[#0a0a0a] border-white/5 hidden md:flex flex-col transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] sidebar-theme`}>
-      <div className="p-6">
+      <div className="p-6 flex flex-col gap-6">
+        <div className="px-2">
+          <Logo showText />
+        </div>
         <button 
           onClick={onNewChat}
           className="w-full flex items-center justify-center gap-2 px-4 py-3.5 border rounded-2xl transition-all duration-300 text-sm font-semibold active:scale-[0.98] whitespace-nowrap group sidebar-new-chat-btn"

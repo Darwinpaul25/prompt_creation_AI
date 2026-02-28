@@ -185,10 +185,15 @@ body.light .scrollbar-thin::-webkit-scrollbar-thumb:hover {
 }
 
 /* Markdown styling */
+.markdown-body {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
 .markdown-body p {
   @apply mb-4 last:mb-0 leading-relaxed;
 }
 
 .markdown-body code:not(pre code) {
-  @apply bg-white/10 px-1.5 py-0.5 rounded text-primary font-mono text-sm;
+  @apply bg-white/10 px-1.5 py-0.5 rounded text-primary font-mono text-sm break-all;
 }

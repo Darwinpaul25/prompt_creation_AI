@@ -2,7 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import { Sidebar, ChatHistoryItem } from './components/Sidebar';
 import { ChatMessage } from './components/ChatMessage';
 import { ChatInput } from './components/ChatInput';
-import { Edit3, Menu, Plus, Sun, Moon } from 'lucide-react';
+import { Logo } from './components/Logo';
+import { Menu, Plus, Sun, Moon, Edit3 } from 'lucide-react';
 import { sendMessage, generateTitle } from './services/gemini';
 
 interface Message {
@@ -305,19 +306,8 @@ export default function App() {
             >
               <Menu className={`w-5 h-5 transition-colors ${isSidebarCollapsed ? 'text-primary' : 'text-slate-500 group-hover:text-slate-300'}`} />
             </button>
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center overflow-hidden">
-                <img 
-                  src="/logo.png" 
-                  alt="Cue.Ai" 
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                    e.currentTarget.parentElement!.innerHTML = '<span class="text-white font-bold text-lg">C</span>';
-                  }}
-                />
-              </div>
-              <h2 className="font-bold text-xl tracking-tighter text-white">Cue.Ai</h2>
+            <div className={`${isSidebarCollapsed ? 'flex' : 'md:hidden flex'}`}>
+              <Logo showText />
             </div>
             <div className="w-px h-4 bg-white/10 mx-2 hidden md:block" />
             <h2 className="font-medium text-sm truncate max-w-[200px] md:max-w-md text-slate-500">
@@ -356,71 +346,82 @@ export default function App() {
         </header>
 
         {/* Messages Container */}
-        <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
-          <div className="max-w-3xl mx-auto px-6 py-12 space-y-12">
-            {messages.length === 0 && !isLoading && (
-              <div className="h-full flex flex-col items-center justify-center text-center space-y-8 pt-24">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full" />
-                  <div className="relative w-24 h-24 rounded-3xl bg-gradient-to-br from-primary to-emerald-700 flex items-center justify-center shadow-2xl shadow-primary/20">
-                    <Edit3 className="w-10 h-10 text-white" />
-                  </div>
-                </div>
-                <div className="space-y-3 max-w-lg">
-                  <h1 className="text-4xl font-bold tracking-tight welcome-title">Cue.Ai Chat</h1>
-                  <p className="text-lg leading-relaxed welcome-text">
-                    I am Cue.Ai. I don't just answer; I craft. Tell me your vision, and together we'll engineer the perfect response.
+        <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent flex flex-col">
+          {messages.length === 0 && !isLoading ? (
+            <div className="flex-1 flex flex-col items-center justify-center text-center p-6 md:p-12 space-y-12 max-w-4xl mx-auto w-full">
+              <div className="relative group">
+                <div className="absolute inset-0 bg-primary/20 blur-[100px] rounded-full scale-150 opacity-50 group-hover:opacity-100 transition-opacity duration-1000" />
+                <Logo size="xl" className="relative z-10" />
+              </div>
+              
+              <div className="space-y-6 relative z-10">
+                <div className="space-y-2">
+                  <h1 className="text-5xl md:text-7xl font-black tracking-tighter welcome-title animate-in fade-in slide-in-from-bottom-4 duration-1000">
+                    Cue.Ai
+                  </h1>
+                  <p className="text-xl md:text-2xl font-medium text-primary tracking-tight opacity-80">
+                    The Architect of Intelligence
                   </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-xl pt-8">
-                  {[
-                    "Create a viral marketing campaign",
-                    "Design a futuristic UI component",
-                    "Write a deep philosophical essay",
-                    "Build a scalable backend system"
-                  ].map((suggestion) => (
-                    <button 
-                      key={suggestion}
-                      onClick={() => handleSend(suggestion)}
-                      className="p-4 rounded-2xl border transition-all text-left group suggestion-card"
-                    >
-                      <p className="text-sm font-medium transition-colors suggestion-card-title">{suggestion}</p>
-                      <p className="text-[11px] text-slate-500 mt-1">Click to start chatting</p>
-                    </button>
-                  ))}
-                </div>
+                <p className="text-lg md:text-xl leading-relaxed welcome-text max-w-2xl mx-auto opacity-70">
+                  I don't just answer; I craft. Tell me your vision, and together we'll engineer the perfect response.
+                </p>
               </div>
-            )}
-            {messages.map((message) => (
-              <ChatMessage 
-                key={message.id} 
-                message={message} 
-                onToggleTask={toggleTask}
-                onToggleAllTasks={toggleAllTasks}
-                onSubmitTasks={handleSubmitTasks}
-                onSelectRadio={handleSelectRadio}
-                onSubmitRadio={handleSubmitRadio}
-              />
-            ))}
-            {isLoading && (
-              <div className="flex items-start gap-4 animate-pulse">
-                <div className="w-8 h-8 rounded bg-primary/20 flex-shrink-0 flex items-center justify-center">
-                  <div className="w-4 h-4 rounded-full bg-primary/40" />
-                </div>
-                <div className="flex-1 pt-1 space-y-2">
-                  <div className="h-4 bg-white/5 rounded w-3/4" />
-                  <div className="h-4 bg-white/5 rounded w-1/2" />
-                </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl pt-8 relative z-10">
+                {[
+                  { title: "Viral Campaign", desc: "Create a marketing strategy that sticks", icon: "🚀" },
+                  { title: "UI Component", desc: "Design a futuristic interface element", icon: "✨" },
+                  { title: "Deep Essay", desc: "Write a philosophical exploration", icon: "✍️" },
+                  { title: "Backend System", desc: "Build a scalable architecture", icon: "⚙️" }
+                ].map((suggestion) => (
+                  <button 
+                    key={suggestion.title}
+                    onClick={() => handleSend(suggestion.title)}
+                    className="p-6 rounded-3xl border transition-all text-left group suggestion-card flex items-start gap-4 active:scale-[0.98]"
+                  >
+                    <span className="text-2xl">{suggestion.icon}</span>
+                    <div>
+                      <p className="text-base font-bold transition-colors suggestion-card-title">{suggestion.title}</p>
+                      <p className="text-xs text-slate-500 mt-1 line-clamp-1">{suggestion.desc}</p>
+                    </div>
+                  </button>
+                ))}
               </div>
-            )}
-            {error && (
-              <div className="p-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-                {error}
-              </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
+            </div>
+          ) : (
+            <div className="max-w-3xl mx-auto px-6 py-12 space-y-12 w-full">
+              {messages.map((message) => (
+                <ChatMessage 
+                  key={message.id} 
+                  message={message} 
+                  onToggleTask={toggleTask}
+                  onToggleAllTasks={toggleAllTasks}
+                  onSubmitTasks={handleSubmitTasks}
+                  onSelectRadio={handleSelectRadio}
+                  onSubmitRadio={handleSubmitRadio}
+                />
+              ))}
+              {isLoading && (
+                <div className="flex items-start gap-4 animate-pulse">
+                  <div className="w-8 h-8 rounded bg-primary/20 flex-shrink-0 flex items-center justify-center">
+                    <div className="w-4 h-4 rounded-full bg-primary/40" />
+                  </div>
+                  <div className="flex-1 pt-1 space-y-2">
+                    <div className="h-4 bg-white/5 rounded w-3/4" />
+                    <div className="h-4 bg-white/5 rounded w-1/2" />
+                  </div>
+                </div>
+              )}
+              {error && (
+                <div className="p-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                  {error}
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+          )}
         </div>
 
         <ChatInput 

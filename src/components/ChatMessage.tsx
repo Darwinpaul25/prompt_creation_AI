@@ -51,8 +51,8 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
           {isAI ? <Sparkles className="w-4 h-4" /> : <User className="w-4 h-4" />}
         </div>
         
-        <div className={`space-y-4 flex flex-col ${isAI ? 'items-start' : 'items-end'}`}>
-          <div className={`px-5 py-4 rounded-2xl text-sm leading-relaxed shadow-sm transition-all duration-300 ${
+        <div className={`space-y-4 flex flex-col min-w-0 ${isAI ? 'items-start' : 'items-end'}`}>
+          <div className={`px-5 py-4 rounded-2xl text-sm leading-relaxed shadow-sm transition-all duration-300 break-words w-full ${
             isAI 
               ? 'border message-ai' 
               : 'message-user'
@@ -68,7 +68,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
                         language={match ? match[1] : undefined}
                       />
                     ) : (
-                      <code className="bg-white/10 px-1.5 py-0.5 rounded text-primary font-mono text-sm" {...props}>
+                      <code className="bg-white/10 px-1.5 py-0.5 rounded text-primary font-mono text-sm break-all" {...props}>
                         {children}
                       </code>
                     );
